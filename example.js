@@ -39,4 +39,26 @@ app.get('/about', function(req, res) {
             }
         });
 });
+app.get('/movie', function (req,res) {
+    var qs =
+    {
+        i: req.query.imdbid
+    };
+    request(
+        {
+            url: 'http://www.omdbapi.com',
+
+            qs: qs
+
+
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var dataObj = JSON.parse(body);
+                res.render("detail", dataObj);
+                // res.send( dataObj);
+            }
+        });
+
+
+});
 app.listen(3000);
