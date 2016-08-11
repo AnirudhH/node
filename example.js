@@ -6,10 +6,10 @@ var express = require('express');
 var request = require('request');
 var path = require('path');
 var hbs = require('hbs');
-
+var textutil = require('./util/textutil');
 
 var app = express();
-
+var desired = 'Twilight';
 
 // this sets a static directory for the views/*
 app.set('view engine', 'hbs' );
@@ -66,11 +66,11 @@ app.get('/about', function(req, res) {
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var dataObj = JSON.parse(body);
-                 res.render("search_results", {result: dataObj.Search} );
-           // res.send( dataObj);
-                // console.log(body);
-
-            }
+                var transformedmovies = textutil.titleMatch(dataObj.Search ,desired);
+                res.render("search_results", {result: transformedmovies} );
+           // res.send( transformedmovies);
+           //     console.log(dataObj.Search);
+                }
         });
 });
 app.get('/movie', function (req,res) {

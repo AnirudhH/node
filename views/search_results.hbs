@@ -2,11 +2,14 @@
 
 
     {{#each result}}
-        <p>{{Title}}</p>
+        {{#if titleMatch}}
+
+        <p>{{result.Title}}</p>
         <p>{{Year}}</p>
         <img src="{{Poster }}" />
         <a href="/movie?imdbid={{imdbID}}"><br>{{Title}}</a>
 
+        {{/if}}
     {{/each}}
 
 
