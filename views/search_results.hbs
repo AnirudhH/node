@@ -1,7 +1,12 @@
 <h1>Movies</h1>
-    {{#each results}}
-<p>{{Title}}</p>
-<p>{{Year}}</p>
-<img src="{{Poster}}" />
-        <a href="/movie?imdbid={{imdbID}}">link</a>
-{{/each}}
+
+
+    {{#each result}}
+        <p>{{Title}}</p>
+        <p>{{Year}}</p>
+        <img src="{{Poster }}" />
+        <a href="/movie?imdbid={{imdbID}}"><br>{{Title}}</a>
+
+    {{/each}}
+
+

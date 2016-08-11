@@ -1,28 +1,38 @@
 /**
  * Created by Ani on 8/9/2016.
  */
+
 var express = require('express');
 var request = require('request');
+var path = require('path');
+var hbs = require('hbs');
+
 
 var app = express();
 
-// this sets a static directory for the views
-app.set('view engine', 'hbs');
+
+// this sets a static directory for the views/*
+app.set('view engine', 'hbs' );
+
 
 app.get('/', function(req, res) {
     // use sendFile to render the index page
-    res.render('index',{ name: "Anirudh" });
+    res.sendFile(path.join(__dirname+'/index.html'));
 });
 
-app.get('/search', function(req, res){
-    var name = req.query.name;
-
-   res.send('Got query: '+  req.query.name + ' ' + req.query.description);
+app.get('/title',function(req,res){
+    res.sendFile(path.join(__dirname+'/title.html'));
 });
-app.get('/about', function(req, res) {
+// app.get('/search', function(req, res) {
+//     var name = req.query.name;
+    //
+    // res.send(req.query.name);
+app.get('/title/detail', function(req, res) {
     var qs =
     {
-        s: req.query.search
+        t: req.query.title
+
+
     };
     request(
         {
@@ -34,8 +44,32 @@ app.get('/about', function(req, res) {
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var dataObj = JSON.parse(body);
-                res.render("search_results", {results: dataObj.Search});
-           // res.send( dataObj.Search);
+                res.render("hello", {results: dataObj});
+            }
+        });
+});
+
+app.get('/about', function(req, res) {
+    var qs =
+    {
+        s: req.query.search
+
+
+    };
+    request(
+        {
+            url: 'http://www.omdbapi.com',
+
+            qs: qs
+
+
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var dataObj = JSON.parse(body);
+                 res.render("search_results", {result: dataObj.Search} );
+           // res.send( dataObj);
+                // console.log(body);
+
             }
         });
 });
@@ -61,4 +95,6 @@ app.get('/movie', function (req,res) {
 
 
 });
+
 app.listen(3000);
+console.log("Server started");
